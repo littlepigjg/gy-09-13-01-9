@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: audit-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: audit_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+    ports:
+      - "13306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  backend:
+    build:
+      context: ./backend
+    image: audit-backend:latest
+    container_name: audit-backend
+    environment:
+      AUDIT_DB_HOST: mysql
+      AUDIT_DB_PORT: 3306
+      AUDIT_DB_USER: root
+      AUDIT_DB_PASSWORD: root
+      AUDIT_DB_NAME: audit_db
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8010:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    image: audit-frontend:latest
+    container_name: audit-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  mysql_data:
