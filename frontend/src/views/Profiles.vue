@@ -14,7 +14,12 @@
       </el-col>
       <el-col :span="16">
         <el-card shadow="never" v-if="current">
-          <template #header>画像详情：{{ current.user_id }}</template>
+          <template #header>
+            <div style="display: flex; justify-content: space-between; align-items: center">
+              <span>画像详情：{{ current.user_id }}</span>
+              <el-button size="small" type="primary" @click="goReport">查看基线报告</el-button>
+            </div>
+          </template>
           <el-descriptions :column="2" border size="small">
             <el-descriptions-item label="总事件数">{{ current.total_events }}</el-descriptions-item>
             <el-descriptions-item label="交易次数">{{ current.transaction_count }}</el-descriptions-item>
@@ -62,14 +67,20 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../api'
 
+const router = useRouter()
 const profiles = ref([])
 const current = ref(null)
 const loading = ref(false)
 
 function selectUser(row) {
   current.value = row
+}
+
+function goReport() {
+  router.push({ path: '/reports/baseline', query: { user_id: current.value.user_id } })
 }
 
 onMounted(async () => {

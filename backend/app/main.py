@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import alerts, anomalies, logs, notifications, profiles, rules, stats
+from .routers import alerts, anomalies, logs, notifications, profiles, reports, rules, stats
 
 app = FastAPI(
     title="用户行为审计系统",
@@ -25,6 +25,7 @@ app.include_router(rules.router)
 app.include_router(alerts.router)
 app.include_router(stats.router)
 app.include_router(profiles.router)
+app.include_router(reports.router)
 app.include_router(notifications.router)
 
 

@@ -8,6 +8,7 @@
         <el-menu-item index="/anomalies">异常事件</el-menu-item>
         <el-menu-item index="/rules">规则配置</el-menu-item>
         <el-menu-item index="/profiles">用户画像</el-menu-item>
+        <el-menu-item index="/reports/baseline">基线报告</el-menu-item>
         <el-menu-item index="/notifications">通知</el-menu-item>
       </el-menu>
     </el-aside>

@@ -30,6 +30,8 @@ export default {
   // 用户画像
   getProfiles: () => http.get('/profiles'),
   getProfile: (userId) => http.get(`/profiles/${userId}`),
+  // 基线报告
+  getBaselineReport: (userId, params) => http.get(`/reports/baseline/${userId}`, { params }),
   // 通知
   getNotifications: (params) => http.get('/notifications', { params }),
   markNotificationRead: (id) => http.patch(`/notifications/${id}/read`),
